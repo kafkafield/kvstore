@@ -1,0 +1,59 @@
+syntax = "proto3";
+package mykv;
+
+service MyKvServer
+{
+	rpc Get (GetRequestPB) returns (GetResponsePB) {}
+	rpc Put (PutRequestPB) returns (PutResponsePB) {}
+	rpc Delete (DeleteRequestPB) returns (DeleteResponsePB) {}
+	rpc Scan (ScanRequestPB) returns (ScanResponsePB) {}
+}
+
+message GetRequestPB
+{
+	bytes key = 1;
+}
+
+message GetResponsePB
+{
+	bytes value = 1;
+	uint32 errorcode = 2;
+}
+
+message PutRequestPB
+{
+	bytes key = 1;
+	bytes value = 2;
+}
+
+message PutResponsePB
+{
+	uint32 errorcode = 1;
+}
+
+message DeleteRequestPB
+{
+	bytes key = 1;
+}
+
+message DeleteResponsePB
+{
+	uint32 errorcode = 1;
+}
+
+message ScanRequestPB
+{
+	// it sucks on proto 3
+	bool has_begin_key = 1;
+	bytes begin_key = 2;
+	bool has_end_key = 3;
+	bytes end_key = 4;
+}
+
+message ScanResponsePB
+{
+	repeated bytes keys = 1;
+	repeated bytes values = 2;
+	uint32 errorcode = 3;
+}
+
